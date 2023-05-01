@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification } from "firebase/auth";
 import app from '../../firebase/firebase.config';
 import { Link } from 'react-router-dom';
 
@@ -39,6 +39,7 @@ const Register = () => {
             setError('');
             event.target.reset();
             setSuccess('User has created successfully');
+            handelSendEmailVerifaction(result.user);
         })
         .catch(error => {
             console.error(error.message);
@@ -47,12 +48,15 @@ const Register = () => {
 
     }
 
-    const handelEmailChange = (event) => {
-
-    }
-
-    const handelPassword = (event) => {
-
+    const handelSendEmailVerifaction = user => {
+        sendEmailVerification(auth, user)
+        .then(result => {
+            console.log(result);
+        }) 
+        .catch(error => {
+            console.log(error);
+            setError("Email verification hasn't sent");
+        })
     }
 
     return (
