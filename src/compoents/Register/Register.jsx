@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from '../../firebase/firebase.config';
+import { Link } from 'react-router-dom';
 
 
 
@@ -20,10 +21,15 @@ const Register = () => {
         const password = event.target.password.value;
 
         setSuccess(''); // by default success message was removed.
-        
+        setError(''); // by default error message was removed.
+
         console.log(email, password);
 
-
+        // validate
+        if(!/(?=.*[A-Z])/.test(password)) {
+            setError('Please add at last on uppercase');
+            return;
+        }
         //create user in firebase
 
         createUserWithEmailAndPassword(auth, email, password)
@@ -67,6 +73,7 @@ const Register = () => {
                 </Form.Group>
                 <p className='text-danger'>{error}</p>
                 <p className='text-success'>{success}</p>
+                <p><small>Already Han an account? Please <Link to='/login'>Login</Link></small></p>
                 <Button variant="primary" type="submit">
                     Register
                 </Button>
