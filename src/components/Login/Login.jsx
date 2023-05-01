@@ -39,7 +39,7 @@ const Login = () => {
                 const loggedUser = result.user;
                 console.log(loggedUser)
                 if (!loggedUser.emailVerified) {
-
+                    alert('Please verify your email');
                 }
                 setSuccess('User login successful.');
                 setError('');
